@@ -118,8 +118,12 @@ module Devbin
       TTY::Which.exist?(*args)
     end
 
-    def cmd
-      @cmd ||= TTY::Command.new(color: true)
+    def pastel
+      @pastel ||=
+        begin
+          require "pastel"
+          Pastel.new
+        end
     end
 
     def find_pwd(file_or_directory_name)
