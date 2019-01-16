@@ -13,7 +13,6 @@ module Devbin
 
         def execute(input: $stdin, output: $stdout)
           require "tty-command"
-          # Command logic goes here ...
           begin
             run "docker-sync start", chdir: docker_sync_pwd
           rescue TTY::Command::ExitError => e
