@@ -117,5 +117,46 @@ module Devbin
       require 'tty-which'
       TTY::Which.exist?(*args)
     end
+
+    def cmd
+      @cmd ||= TTY::Command.new(color: true)
+    end
+
+    def find_pwd(file_or_directory_name)
+      path = [".", file_or_directory_name]
+      file = nil
+      results = Dir[path.join("/")]
+      file = results[0]
+      return path[0..-2] unless results.empty?
+      3.times do
+        path.unshift("..")
+        results = Dir[path.join("/")]
+        file = results[0]
+        return path[0..-2] unless results.empty?
+      end
+      []
+    end
+
+    def docker_sync_pwd
+      @docker_sync_pwd ||=
+        begin
+          path = find_pwd("docker-sync.yml")
+          if path.empty?
+            fail "Cannot find the `docker-sync.yml' file"
+          end
+          path.join("/")
+        end
+    end
+
+    def docker_pwd
+      @docker_pwd ||=
+        begin
+          path = find_pwd("docker")
+          if path.empty?
+            fail "Cannot find the `docker' folder"
+          end
+          path.push("docker").join("/")
+        end
+    end
   end
 end

@@ -17,5 +17,8 @@ module Devbin
       puts "v#{Devbin::VERSION}"
     end
     map %w(--version -v) => :version
+
+    require_relative 'commands/rails'
+    register Devbin::Commands::Rails, 'rails', 'rails [SUBCOMMAND]', 'Control the Rails application'
   end
 end
