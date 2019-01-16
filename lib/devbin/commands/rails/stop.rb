@@ -12,7 +12,9 @@ module Devbin
         end
 
         def execute(input: $stdin, output: $stdout)
-          run "docker-sync stop", chdir: docker_sync_pwd
+          if @options[:sync]
+            run "docker-sync stop", chdir: docker_sync_pwd
+          end
           if @options[:all]
             run "docker-compose stop", chdir: docker_pwd
           else
