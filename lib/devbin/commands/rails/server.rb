@@ -27,7 +27,7 @@ module Devbin
             require_relative "attach"
             Devbin::Commands::Rails::Attach.new(@app_name, {}).execute
           end
-          output.puts "OK"
+          output.puts pastel.yellow.bold("OK")
         end
       end
     end

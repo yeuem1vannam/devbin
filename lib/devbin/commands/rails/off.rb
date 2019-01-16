@@ -12,8 +12,8 @@ module Devbin
 
         def execute(input: $stdin, output: $stdout)
           require_relative "stop"
-          Devbin::Commands::Rails::Stop.new(@app_name, {all: true}).execute
-          output.puts "OK"
+          Devbin::Commands::Rails::Stop.new(@app_name, {all: true, sync: true}).execute
+          output.puts pastel.green.on_bright_black.bold("Remember to `git push' before go home")
         end
       end
     end

@@ -20,7 +20,7 @@ module Devbin
           else
             run "docker-compose stop #{@app_name}", chdir: docker_pwd
           end
-          output.puts "OK"
+          output.puts pastel.yellow.bold("OK")
         end
       end
     end
