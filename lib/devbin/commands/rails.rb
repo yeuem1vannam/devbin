@@ -17,6 +17,8 @@ module Devbin
         desc: "Display usage information"
       method_option :detach, aliases: "-d", type: :boolean, required: false, default: false,
         desc: "Start the server with detached mode"
+      method_option :sync, aliases: "-s", type: :boolean, default: true,
+        desc: "Start the docker-sync also"
       def server(app_name)
         if options[:help]
           invoke :help, ["server"]
@@ -53,8 +55,10 @@ module Devbin
       desc "stop APP_NAME", "Stop the rails application"
       method_option :help, aliases: "-h", type: :boolean,
         desc: "Display usage information"
-      method_option :all, aliases: "-a", type: :boolean, required: false, default: false,
+      method_option :all, aliases: "-a", type: :boolean, default: false,
         desc: "Stop all applications"
+      method_option :sync, aliases: "-s", type: :boolean, default: true,
+        desc: "Stop the docker-sync also"
       def stop(app_name = "")
         if options[:help]
           invoke :help, ["stop"]
@@ -64,11 +68,13 @@ module Devbin
         end
       end
 
-      desc "restart APP_NAME", "Restart docker-sync stack and the application"
+      desc "restart APP_NAME", "Restart the application"
       method_option :help, aliases: "-h", type: :boolean,
         desc: "Display usage information"
-      method_option :detach, aliases: "-d", type: :boolean, required: false, default: false,
+      method_option :detach, aliases: "-d", type: :boolean, default: false,
         desc: "Restart the server with detached mode"
+      method_option :sync, aliases: "-s", type: :boolean, default: false,
+        desc: "Restart the docker-sync also"
       def restart(app_name)
         if options[:help]
           invoke :help, ["restart"]
