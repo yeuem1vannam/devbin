@@ -1,0 +1,8 @@
+version: "2"
+options:
+  verbose: true
+syncs:
+  app-one-sync:
+    src: ./app-one
+  app-two-sync:
+    src: ./app-two

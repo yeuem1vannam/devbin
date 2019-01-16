@@ -1,0 +1,37 @@
+version: "3.5"
+
+x-sinatra: &sinatra
+  image: ruby:2.6
+  working_dir: /workspace
+  command:
+    - /bin/sh
+    - -c
+    - |
+      set -ex
+      bundle check || bundle install
+      ruby app.rb
+
+services:
+  app-one:
+    <<: *sinatra
+    volumes:
+      - app-one-sync:/workspace
+      - app-x-bundle-box:/usr/local/bundle
+    ports:
+      - 1111:4567
+
+  app-two:
+    <<: *sinatra
+    volumes:
+      - app-two-sync:/workspace
+      - app-x-bundle-box:/usr/local/bundle
+    ports:
+      - 2222:4567
+
+volumes:
+  app-one-sync:
+    external: true
+  app-two-sync:
+    external: true
+  app-x-bundle-box:
+    driver: local
