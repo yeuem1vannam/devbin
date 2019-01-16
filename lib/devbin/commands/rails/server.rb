@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '../../command'
+require_relative "../../command"
 
 module Devbin
   module Commands
@@ -22,7 +22,7 @@ module Devbin
           end
           run "docker-compose up -d #{@app_name}", chdir: docker_pwd
           unless @options[:detach]
-            require_relative 'attach'
+            require_relative "attach"
             Devbin::Commands::Rails::Attach.new(@app_name, {}).execute
           end
           output.puts "OK"

@@ -1,4 +1,4 @@
-require 'devbin/commands/rails/console'
+require "devbin/commands/rails/console"
 
 RSpec.describe Devbin::Commands::Rails::Console do
   it "executes `rails console` command successfully" do

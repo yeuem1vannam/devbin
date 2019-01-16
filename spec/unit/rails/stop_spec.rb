@@ -1,4 +1,4 @@
-require 'devbin/commands/rails/stop'
+require "devbin/commands/rails/stop"
 
 RSpec.describe Devbin::Commands::Rails::Stop do
   it "executes `rails stop` command successfully" do

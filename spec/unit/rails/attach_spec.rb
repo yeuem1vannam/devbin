@@ -1,4 +1,4 @@
-require 'devbin/commands/rails/attach'
+require "devbin/commands/rails/attach"
 
 RSpec.describe Devbin::Commands::Rails::Attach do
   it "executes `rails attach` command successfully" do

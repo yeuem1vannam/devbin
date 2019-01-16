@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'forwardable'
+require "forwardable"
 
 module Devbin
   class Command
@@ -24,7 +24,7 @@ module Devbin
     #
     # @api public
     def command(**options)
-      require 'tty-command'
+      require "tty-command"
       TTY::Command.new(options)
     end
 
@@ -34,7 +34,7 @@ module Devbin
     #
     # @api public
     def cursor
-      require 'tty-cursor'
+      require "tty-cursor"
       TTY::Cursor
     end
 
@@ -44,7 +44,7 @@ module Devbin
     #
     # @api public
     def editor
-      require 'tty-editor'
+      require "tty-editor"
       TTY::Editor
     end
 
@@ -54,7 +54,7 @@ module Devbin
     #
     # @api public
     def generator
-      require 'tty-file'
+      require "tty-file"
       TTY::File
     end
 
@@ -64,7 +64,7 @@ module Devbin
     #
     # @api public
     def pager(**options)
-      require 'tty-pager'
+      require "tty-pager"
       TTY::Pager.new(options)
     end
 
@@ -74,7 +74,7 @@ module Devbin
     #
     # @api public
     def platform
-      require 'tty-platform'
+      require "tty-platform"
       TTY::Platform.new
     end
 
@@ -84,7 +84,7 @@ module Devbin
     #
     # @api public
     def prompt(**options)
-      require 'tty-prompt'
+      require "tty-prompt"
       TTY::Prompt.new(options)
     end
 
@@ -94,7 +94,7 @@ module Devbin
     #
     # @api public
     def screen
-      require 'tty-screen'
+      require "tty-screen"
       TTY::Screen
     end
 
@@ -104,7 +104,7 @@ module Devbin
     #
     # @api public
     def which(*args)
-      require 'tty-which'
+      require "tty-which"
       TTY::Which.which(*args)
     end
 
@@ -114,12 +114,16 @@ module Devbin
     #
     # @api public
     def exec_exist?(*args)
-      require 'tty-which'
+      require "tty-which"
       TTY::Which.exist?(*args)
     end
 
-    def cmd
-      @cmd ||= TTY::Command.new(color: true)
+    def pastel
+      @pastel ||=
+        begin
+          require "pastel"
+          Pastel.new
+        end
     end
 
     def find_pwd(file_or_directory_name)

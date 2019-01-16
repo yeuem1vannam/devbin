@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '../../command'
+require_relative "../../command"
 
 module Devbin
   module Commands
@@ -13,7 +13,11 @@ module Devbin
 
         def execute(input: $stdin, output: $stdout)
           container_id, _err = run "docker-compose ps -q #{@app_name}", chdir: docker_pwd
-          puts "Remember to use Ctrl + C to detach from container ( Overrided Ctrl + P Ctrl + Q to work with VSCode )"
+          puts pastel.green(
+            "Remember to use ",
+            pastel.yellow.on_bright_black.bold("Ctrl + C"),
+            " to detach from container ( Overrided Ctrl + P Ctrl + Q to work with VSCode )"
+          )
           pid = Process.fork {
             exec "docker attach #{container_id.strip} --detach-keys='ctrl-c'"
           }

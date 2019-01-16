@@ -1,4 +1,4 @@
-require 'devbin/commands/rails/off'
+require "devbin/commands/rails/off"
 
 RSpec.describe Devbin::Commands::Rails::Off do
   it "executes `rails off` command successfully" do
