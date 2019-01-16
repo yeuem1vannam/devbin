@@ -23,7 +23,7 @@ module Devbin
             @app_name,
             @options.slice(:detach, :sync)
           ).execute
-          output.puts "OK"
+          output.puts pastel.yellow.bold("OK")
         end
       end
     end

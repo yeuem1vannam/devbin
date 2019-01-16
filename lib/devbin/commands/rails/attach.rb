@@ -22,7 +22,7 @@ module Devbin
             exec "docker attach #{container_id.strip} --detach-keys='ctrl-c'"
           }
           Process.wait pid
-          output.puts "OK"
+          output.puts pastel.yellow.bold("OK")
           exit 0
         end
       end

@@ -17,7 +17,7 @@ module Devbin
               exec "docker-compose exec #{@app_name} bundle exec rails c"
             }
             Process.wait pid
-            output.puts "OK"
+            output.puts pastel.yellow.bold("OK")
             exit 0
           end
         end
