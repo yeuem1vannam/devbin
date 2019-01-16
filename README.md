@@ -3,19 +3,48 @@
 Working in multiple containerized environment seamlessly. Within the application folder, type one command, give the name of other application, then it should work.
 
 ## Motivation
-When working in a multiple containerized environment, it gets boring to repeatedly make `cd` back and forth between application's folders to execute some commands.
-The Convention-Over-Configuration pattern is quite popular this day, we all name our containers, arrange folders base on some predictable rules, then make some command alias for faster integrate with other containers. **devbin** will help us to bootstrapping + managing our environment seamlessly. The idea is: just remember the application name + the command you want to execute, **devbin** do all other boring things.
+When working in a multiple containerized environment, it gets boring to repeatedly make `cd` back and forth between application's folders to execute some commands.  
+The Convention-Over-Configuration pattern is quite popular this day, we all name our containers, arrange folders base on some predictable rules, then make some command alias for faster integrate with other containers. **devbin** will help us to bootstrapping + managing our environment seamlessly.
+
+The idea is: just remember the application name + the command you want to execute, **devbin** do all other boring things.
+
+```text
+.
+├── awesome-project
+│   ├── api
+│   │   ├── Gemfile
+│   │   ├── Gemfile.lock
+│   │   └── vendor
+│   │       └── gems
+│   │           └── awesome-engine
+│   └── front-end
+│       ├── package.json
+│       ├── yarn.lock
+│       └── src
+├── docker
+│   └── docker-compose.yml
+└── docker-sync.yml
+```
+
+With **devbin**, you can stay at `awesome-project/api/vendor/gems/awesome-engine` and control the rest:
+```sh
+$ devbin rails s api --detach
+$ devbin yarn start front-end
+```
 
 ## Installation
 
 Install gem as as:
-
-    $ gem install devbin
+```sh
+$ gem install devbin
+```
 
 ## Usage
 TL; DR;
 
-    $ devbin help
+```sh
+$ devbin help
+```
 
 
 ## Development
