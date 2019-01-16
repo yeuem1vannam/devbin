@@ -127,17 +127,18 @@ module Devbin
     end
 
     def find_pwd(file_or_directory_name)
-      path = [".", file_or_directory_name]
-      file = nil
-      results = Dir[path.join("/")]
-      file = results[0]
-      return path[0..-2] unless results.empty?
-      3.times do
+      current_path = Dir.pwd
+      path = []
+      while Dir.pwd != "/"
+        results = Dir[file_or_directory_name]
+        unless results.empty?
+          Dir.chdir current_path
+          return path
+        end
         path.unshift("..")
-        results = Dir[path.join("/")]
-        file = results[0]
-        return path[0..-2] unless results.empty?
+        Dir.chdir ".."      # Up one level
       end
+      Dir.chdir current_path
       []
     end
 
