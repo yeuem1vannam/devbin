@@ -1,4 +1,4 @@
-require 'devbin/commands/rails/restart'
+require "devbin/commands/rails/restart"
 
 RSpec.describe Devbin::Commands::Rails::Restart do
   it "executes `rails restart` command successfully" do

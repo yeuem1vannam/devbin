@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '../../command'
+require_relative "../../command"
 
 module Devbin
   module Commands
@@ -12,7 +12,7 @@ module Devbin
         end
 
         def execute(input: $stdin, output: $stdout)
-          Dir.chdir(docker_pwd) do 
+          Dir.chdir(docker_pwd) do
             pid = Process.fork {
               exec "docker-compose exec #{@app_name} bundle exec rails c"
             }

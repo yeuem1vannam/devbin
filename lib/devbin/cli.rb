@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'thor'
+require "thor"
 
 module Devbin
   # Handle the application command line parsing
@@ -11,14 +11,14 @@ module Devbin
     # Error raised by this runner
     Error = Class.new(StandardError)
 
-    desc 'version', 'devbin version'
+    desc "version", "devbin version"
     def version
-      require_relative 'version'
+      require_relative "version"
       puts "v#{Devbin::VERSION}"
     end
     map %w(--version -v) => :version
 
-    require_relative 'commands/rails'
-    register Devbin::Commands::Rails, 'rails', 'rails [SUBCOMMAND]', 'Control the Rails application'
+    require_relative "commands/rails"
+    register Devbin::Commands::Rails, "rails", "rails [SUBCOMMAND]", "Control the Rails application"
   end
 end
