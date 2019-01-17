@@ -13,7 +13,7 @@ module Devbin
 
         def execute(input: $stdin, output: $stdout)
           container_id, _err = run "docker-compose ps -q #{@app_name}", chdir: docker_pwd
-          puts pastel.green(
+          output.puts pastel.green(
             "Remember to use ",
             pastel.yellow.on_bright_black.bold("Ctrl + C"),
             " to detach from container ( Overrided Ctrl + P Ctrl + Q to work with VSCode )"
@@ -23,7 +23,6 @@ module Devbin
           }
           Process.wait pid
           output.puts pastel.yellow.bold("OK")
-          exit 0
         end
       end
     end

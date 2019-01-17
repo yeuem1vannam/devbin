@@ -128,7 +128,7 @@ module Devbin
 
     def find_pwd(file_or_directory_name)
       current_path = Dir.pwd
-      path = []
+      path = ["."]
       while Dir.pwd != "/"
         results = Dir[file_or_directory_name]
         unless results.empty?

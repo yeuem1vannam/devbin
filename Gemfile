@@ -7,6 +7,7 @@ gemspec
 
 
 group :development do
+  gem "pry"
   gem "rubocop-github", require: false
   gem "rubocop-rspec",  require: false
 end
