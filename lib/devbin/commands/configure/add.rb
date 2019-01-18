@@ -84,6 +84,11 @@ module Devbin
             default_path
           when :input
             output.puts pastel.red "Implementing: ask for docker-sync.yml path"
+            output.puts pastel.green(
+              "Wanna contribute? I'm glad to hear that.",
+              "\nPlease visit ",
+              pastel.bold.on_bright_black("https://github.com/yeuem1vannam/devbin/issues/16")
+            )
           when :stop
             output.puts pastel.red "Abort"
             exit 1
@@ -119,6 +124,11 @@ module Devbin
             default_path
           when :input
             output.puts pastel.red "Implementing: ask for docker-compose.yml path"
+            output.puts pastel.green(
+              "Wanna contribute? I'm glad to hear that.",
+              "\nPlease visit ",
+              pastel.bold.on_bright_black("https://github.com/yeuem1vannam/devbin/issues/16")
+            )
           when :stop
             output.puts pastel.red "Abort"
             exit 1
