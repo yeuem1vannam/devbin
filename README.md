@@ -1,7 +1,9 @@
 # devbin
 
 Working in multiple containerized environment seamlessly. Within the application folder, type one command, give the name of other application, then it should work.
-[![asciicast](https://asciinema.org/a/JQtlp64gl68QjHjjOcRYCbvxD.svg)](https://asciinema.org/a/JQtlp64gl68QjHjjOcRYCbvxD)
+[![asciicast](https://asciinema.org/a/EzYWzB9L7m8NSdEKpnqKozhnU.svg)](https://asciinema.org/a/EzYWzB9L7m8NSdEKpnqKozhnU)
+
+*P/S: this tool is under active development, commands might be changed until it reached v0.1.0*
 ## Motivation
 When working in a multiple containerized environment, it gets boring to repeatedly make `cd` back and forth between application's folders to execute some commands.  
 The Convention-Over-Configuration pattern is quite popular this day, we all name our containers, arrange folders base on some predictable rules, then make some command alias for faster integrate with other containers. **devbin** will help us to bootstrapping + managing our environment seamlessly.
