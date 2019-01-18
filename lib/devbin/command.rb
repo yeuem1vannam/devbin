@@ -163,5 +163,9 @@ module Devbin
           path.push("docker").join("/")
         end
     end
+
+    def config_file_path
+      @config_file_path ||= "#{Dir.home}/.config/devbin/config.yml"
+    end
   end
 end

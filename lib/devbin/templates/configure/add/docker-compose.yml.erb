@@ -1,0 +1,25 @@
+---
+version: "3.5"
+
+services:
+  <%= app_name %>:
+    image: ruby:2.6
+    working_dir: /workspace
+    volumes:
+      - <%= app_name %>-sync:/workspace
+      - <%= app_name %>-bundle-box:/usr/local/bundle
+    ports:
+      - 4567:4567
+    command:
+      - /bin/sh
+      - -c
+      - |
+        set -ex
+        bundle check || bundle install
+        ruby app.rb
+
+volumes:
+  <%= app_name %>-sync:
+    external: true
+  <%= app_name %>-bundle-box:
+    driver: local

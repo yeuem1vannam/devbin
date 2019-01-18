@@ -1,0 +1,7 @@
+version: "2"
+options:
+  verbose: true
+syncs:
+  <%= app_name %>-sync:
+    src: <%= app_root %>
+    sync_excludes: [".git", "node_modules"]

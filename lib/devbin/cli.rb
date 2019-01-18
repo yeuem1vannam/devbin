@@ -11,16 +11,17 @@ module Devbin
     # Error raised by this runner
     Error = Class.new(StandardError)
 
+    class_option :help, aliases: "-h", type: :boolean,
+      desc: "Display usage information"
+
     desc "version", "devbin version"
     def version
       require_relative "version"
       puts "v#{Devbin::VERSION}"
     end
     map %w(--version -v) => :version
-    
+
     desc "up [APP_NAME]", "Start the application"
-    method_option :help, aliases: "-h", type: :boolean,
-      desc: "Display usage information"
     method_option :detach, aliases: "-d", type: :boolean, required: false, default: false,
       desc: "Start the application with detached mode"
     method_option :sync, aliases: "-s", type: :boolean, default: true,
@@ -35,8 +36,6 @@ module Devbin
     end
 
     desc "attach APP_NAME", "Attach to the application"
-    method_option :help, aliases: "-h", type: :boolean,
-      desc: "Display usage information"
     def attach(app_name)
       if options[:help]
         invoke :help, ["attach"]
@@ -47,8 +46,6 @@ module Devbin
     end
 
     desc "start [APP_NAME]", "Start the application"
-    method_option :help, aliases: "-h", type: :boolean,
-      desc: "Display usage information"
     method_option :sync, aliases: "-s", type: :boolean, default: true,
       desc: "Start the docker-sync also"
     def start(app_name)
@@ -61,8 +58,6 @@ module Devbin
     end
 
     desc "stop APP_NAME", "Stop the rails application"
-    method_option :help, aliases: "-h", type: :boolean,
-      desc: "Display usage information"
     method_option :all, aliases: "-a", type: :boolean, default: false,
       desc: "Stop all applications"
     method_option :sync, aliases: "-s", type: :boolean, default: true,
@@ -77,8 +72,6 @@ module Devbin
     end
 
     desc "restart APP_NAME", "Restart the application"
-    method_option :help, aliases: "-h", type: :boolean,
-      desc: "Display usage information"
     # method_option :all, aliases: "-a", type: :boolean, default: false,
     #   desc: "Restart all applications"
     method_option :sync, aliases: "-s", type: :boolean, default: true,
@@ -93,8 +86,6 @@ module Devbin
     end
 
     desc "bash APP_NAME", "Attach to bash for the given app"
-    method_option :help, aliases: "-h", type: :boolean,
-      desc: "Display usage information"
     def bash(app_name)
       if options[:help]
         invoke :help, ["bash"]
@@ -106,8 +97,6 @@ module Devbin
     map %w(sh) => :bash
 
     desc "off", "Close all active containers and go home"
-    method_option :help, aliases: "-h", type: :boolean,
-      desc: "Display usage information"
     method_option :yes, aliases: "-y", type: :boolean, default: false,
       desc: "No ask, just off"
     def off(*_args)
@@ -120,8 +109,6 @@ module Devbin
     end
 
     desc "navigate APP_NAME", "Quick navigate to the main folder of the app"
-    method_option :help, aliases: "-h", type: :boolean,
-      desc: "Display usage information"
     def navigate(app_name)
       if options[:help]
         invoke :help, ["off"]
@@ -134,5 +121,8 @@ module Devbin
 
     require_relative "commands/rails"
     register Devbin::Commands::Rails, "rails", "rails [SUBCOMMAND]", "Control the Rails application"
+
+    require_relative "commands/configure"
+    register Devbin::Commands::Configure, "configure", "configure [SUBCOMMAND]", "Configure the workspace"
   end
 end
