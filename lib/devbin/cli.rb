@@ -119,6 +119,19 @@ module Devbin
       end
     end
 
+    desc "navigate APP_NAME", "Quick navigate to the main folder of the app"
+    method_option :help, aliases: "-h", type: :boolean,
+      desc: "Display usage information"
+    def navigate(app_name)
+      if options[:help]
+        invoke :help, ["off"]
+      else
+        require_relative "commands/navigate"
+        Devbin::Commands::Navigate.new(:all, options).execute
+      end
+    end
+    map %w(cd) => :navigate
+
     require_relative "commands/rails"
     register Devbin::Commands::Rails, "rails", "rails [SUBCOMMAND]", "Control the Rails application"
   end
