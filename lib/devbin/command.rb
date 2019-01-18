@@ -142,17 +142,46 @@ module Devbin
       []
     end
 
-    def docker_sync_pwd
-      @docker_sync_pwd ||=
-        begin
-          path = find_pwd("docker-sync.yml")
-          if path.empty?
-            fail "Cannot find the `docker-sync.yml' file"
-          end
-          path.join("/")
-        end
+    def docker_sync_file
+      return @docker_sync_file if @docker_sync_file
+      find_docker_files()
+      @docker_sync_file
     end
 
+    def docker_compose_file
+      return @docker_compose_file if @docker_compose_file
+      find_docker_files()
+      @docker_compose_file
+    end
+
+    def root
+      return @root if @root
+      find_docker_files()
+      @root
+    end
+
+    def find_docker_files
+      current_path = Dir.pwd
+      matched_root = ""
+      matched_docker_sync_pwd = ""
+      matched_docker_compose_pwd = ""
+      (config["workspaces"] || {}).each_pair do |_workspace_name, value|
+        root = value["root"]
+        if current_path.start_with?(root) && root.length >= matched_root.length
+          matched_root = root
+          matched_docker_sync_pwd = value["docker-sync"]
+          matched_docker_compose_pwd = value["docker-compose"]
+        end
+      end
+      if matched_docker_sync_pwd.empty? || matched_docker_compose_pwd.empty?
+        fail "Cannot find the workspace for #{current_path}"
+      end
+      @root = matched_root
+      @docker_sync_file = matched_docker_sync_pwd.gsub(matched_root, ".")
+      @docker_compose_file = matched_docker_compose_pwd.gsub(matched_root, ".")
+    end
+
+    # @deprecated
     def docker_pwd
       @docker_pwd ||=
         begin
@@ -162,6 +191,16 @@ module Devbin
           end
           path.push("docker").join("/")
         end
+    end
+
+    def config_file_path
+      @config_file_path ||= "#{Dir.home}/.config/devbin/config.yml"
+    end
+
+    def config
+      return @config if @config
+      require "yaml"
+      @config = YAML.load_file config_file_path
     end
   end
 end

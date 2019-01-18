@@ -1,7 +1,10 @@
 # devbin
 
 Working in multiple containerized environment seamlessly. Within the application folder, type one command, give the name of other application, then it should work.
-[![asciicast](https://asciinema.org/a/EzYWzB9L7m8NSdEKpnqKozhnU.svg)](https://asciinema.org/a/EzYWzB9L7m8NSdEKpnqKozhnU)
+- Up and running in minute
+  [![asciicast](https://asciinema.org/a/e9nIt1Vmk1ePEeGQXTAtRdzk3.svg)](https://asciinema.org/a/e9nIt1Vmk1ePEeGQXTAtRdzk3)
+- Seamlessly control the stack
+  [![asciicast](https://asciinema.org/a/EzYWzB9L7m8NSdEKpnqKozhnU.svg)](https://asciinema.org/a/EzYWzB9L7m8NSdEKpnqKozhnU)
 
 *P/S: this tool is under active development, commands might be changed until it reached v0.1.0*
 ## Motivation
@@ -27,8 +30,8 @@ samples
 
 With **devbin**, you can stay at `samples/app-one` or `samples` and control the stack seamlessly:
 ```sh
-$ devbin rails s app-one --detach
-$ devbin rails s app-two
+$ devbin start app-one --detach
+$ devbin start app-two
 ```
 
 ## Installation

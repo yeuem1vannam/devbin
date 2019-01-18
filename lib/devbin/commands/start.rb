@@ -14,14 +14,14 @@ module Devbin
         require "tty-command"
         if @options[:sync]
           begin
-            run "docker-sync start", chdir: docker_sync_pwd
+            run "docker-sync start -c #{docker_sync_file}", chdir: root
           rescue TTY::Command::ExitError => e
             unless e.message =~ /warning\s+docker-sync\salready\sstarted\sfor\sthis\sconfiguration/
               raise e
             end
           end
         end
-        run "docker-compose up -d #{@app_name}", chdir: docker_pwd
+        run "docker-compose -f #{docker_compose_file} up -d #{@app_name}", chdir: root
         output.puts pastel.yellow.bold("OK")
       end
     end

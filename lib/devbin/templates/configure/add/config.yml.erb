@@ -1,0 +1,10 @@
+---
+global:
+  verbose: true
+workspaces:
+  <%= workspace_name %>:
+    root: <%= root_dir %>
+    docker-sync: <%= docker_sync_file %>
+    docker-compose: <%= docker_compose_file %>
+    services:
+      <%= app_name %>: "./<%= app_name %>"
