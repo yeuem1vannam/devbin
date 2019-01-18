@@ -6,6 +6,9 @@
 /pkg/
 /spec/reports/
 /tmp/
+# Ignore any further changes in samples folder. Use git add -f samples to force
+# update its content when necessary
+/samples/*
 
 # rspec failure tracking
 .rspec_status

@@ -7,6 +7,7 @@ gemspec
 
 
 group :development do
+  gem "benchmark-ips", require: false
   gem "pry"
   gem "rubocop-github", require: false
   gem "rubocop-rspec",  require: false
