@@ -14,7 +14,7 @@ module Devbin
         require "tty-command"
         if @options[:sync]
           begin
-            run "docker-sync start --config=#{docker_sync_file}", chdir: root
+            run "docker-sync start -c #{docker_sync_file}", chdir: root
           rescue TTY::Command::ExitError => e
             unless e.message =~ /warning\s+docker-sync\salready\sstarted\sfor\sthis\sconfiguration/
               raise e

@@ -12,12 +12,12 @@ module Devbin
 
       def execute(input: $stdin, output: $stdout)
         if @options[:sync]
-          run "docker-sync stop", chdir: docker_sync_pwd
+          run "docker-sync stop -c #{docker_sync_file}", chdir: root
         end
         if @options[:all]
-          run "docker-compose stop", chdir: docker_pwd
+          run "docker-compose -f #{docker_compose_file} stop", chdir: root
         else
-          run "docker-compose stop #{@app_name}", chdir: docker_pwd
+          run "docker-compose -f #{docker_compose_file} stop #{@app_name}", chdir: root
         end
         output.puts pastel.yellow.bold("OK")
       end

@@ -11,7 +11,7 @@ module Devbin
       end
 
       def execute(input: $stdin, output: $stdout)
-        container_id, _err = run "docker-compose ps -q #{@app_name}", chdir: docker_pwd
+        container_id, _err = run "docker-compose -f #{docker_compose_file} ps -q #{@app_name}", chdir: root
         output.puts pastel.green(
           "Remember to use ",
           pastel.yellow.on_bright_black.bold("Ctrl + C"),
