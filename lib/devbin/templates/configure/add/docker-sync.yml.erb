@@ -3,5 +3,5 @@ options:
   verbose: true
 syncs:
   <%= app_name %>-sync:
-    src: <%= app_root %>
+    src: "./<%= app_name %>"
     sync_excludes: [".git", "node_modules"]

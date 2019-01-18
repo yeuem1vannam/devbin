@@ -20,24 +20,15 @@ module Devbin
         def execute(input: $stdin, output: $stdout)
           check_or_create_config_files()
           root_dir = ask_for_root()
-          puts root_dir
           docker_sync_file = ask_for_docker_sync_file()
-          puts docker_sync_file
           docker_compose_file = ask_for_docker_compose_file()
-          puts docker_compose_file
           add_new_config(
             root_dir:             root_dir,
             docker_sync_file:     docker_sync_file,
             docker_compose_file:  docker_compose_file
           )
-          add_new_docker_sync(
-            root_dir:             root_dir,
-            docker_sync_file:     docker_sync_file
-          )
-          add_new_docker_compose(
-            root_dir:             root_dir,
-            docker_compose_file:  docker_compose_file
-          )
+          add_new_docker_sync(root_dir: root_dir, docker_sync_file: docker_sync_file)
+          add_new_docker_compose(docker_compose_file: docker_compose_file)
 
           output.puts pastel.yellow.bold("OK")
         end
@@ -52,7 +43,7 @@ module Devbin
               ]
             }
             TTY::File.create_dir tree, Dir.home
-            TTY::File.copy_file "lib/devbin/templates/configure/add/config.yml", config_file_path
+            TTY::File.copy_file config_origin_path, config_file_path
           end
         end
 
@@ -75,7 +66,7 @@ module Devbin
               pastel.bold(default_path),
               ". Good to go"
             )
-            return default_path.gsub(Dir.pwd, ".")
+            return default_path
           end
 
           msg = pastel.yellow "./docker-sync.yml not found"
@@ -89,10 +80,8 @@ module Devbin
           when :new
             variables = OpenStruct.new
             variables[:app_name] = @app_name
-            variables[:app_root] = "#{Dir.pwd}/#{@app_name}"
-            source_file = "lib/devbin/templates/configure/add/docker-sync.yml.erb"
-            TTY::File.copy_file source_file, default_path, context: variables 
-            default_path.gsub(Dir.pwd, ".")
+            TTY::File.copy_file docker_sync_template_path, default_path, context: variables 
+            default_path
           when :input
             output.puts pastel.red "Implementing: ask for docker-sync.yml path"
           when :stop
@@ -103,8 +92,39 @@ module Devbin
           end
         end
 
-        def ask_for_docker_compose_file
-          "./docker-compose.yml"
+        def ask_for_docker_compose_file(output: $stdout)
+          default_path = "#{Dir.pwd}/docker-compose.yml"
+
+          if File.exist? default_path
+            output.puts pastel.green(
+              "Detected the docker-sync configuration file at ",
+              pastel.bold(default_path),
+              ". Good to go"
+            )
+            return default_path
+          end
+
+          msg = pastel.yellow "./docker-compose.yml not found"
+          choices = [
+            { key: "1", name: "Create new file ./docker-compose.yml", value: :new },
+            { key: "2", name: "I will give you a path", value: :input },
+            { key: "3", name: "Abort", value: :stop },
+          ]
+          select_value = prompt.select msg, choices
+          case select_value
+          when :new
+            variables = OpenStruct.new
+            variables[:app_name] = @app_name
+            TTY::File.copy_file docker_compose_template_path, default_path, context: variables 
+            default_path
+          when :input
+            output.puts pastel.red "Implementing: ask for docker-compose.yml path"
+          when :stop
+            output.puts pastel.red "Abort"
+            exit 1
+          else
+            fail "Un-handled select option"
+          end
         end
 
         # @example
@@ -120,17 +140,23 @@ module Devbin
         #   #     root:           /Users/yeuem1vannam/awesome-project
         #   #     docker-sync:    ./docker-sync.yml
         #   #     docker-compose: ./docker-compose.yml
+        #   #     services:
+        #   #       app-one: ./app-one
         def add_new_config(root_dir:, docker_sync_file:, docker_compose_file:)
+          workspace_name = Dir.pwd.split("/").last
+          app_name = @app_name
+          yaml_string = ERB.new(File.read(config_template_path)).result binding
+          new_config = YAML.load(yaml_string)
+
+          service_config_path = ["workspaces", workspace_name, "services"]
+
           config = YAML.load_file config_file_path
-          workspace = Dir.pwd.split("/").last
-          app_config = {
-            "root" => root_dir,
-            "docker-sync" => docker_sync_file,
-            "docker-compose" => docker_compose_file
-          }
+          services_config = config.dig(*service_config_path) || {}
+          services_config.merge! new_config.dig(*service_config_path)
+          new_config["workspaces"][workspace_name]["services"] = services_config
           config["workspaces"] ||= {}
-          config["workspaces"][workspace] ||= {}
-          config["workspaces"][workspace][@app_name] = app_config
+          config["workspaces"][workspace_name] = new_config["workspaces"][workspace_name]
+
           File.open(config_file_path, "w") do |f|
             f.write config.to_yaml
           end
@@ -138,10 +164,11 @@ module Devbin
 
         # Add new section to docker-sync.yml file
         def add_new_docker_sync(root_dir:, docker_sync_file:)
-          file_path = File.join(root_dir, docker_sync_file)
+          file_path = File.join(docker_sync_file)
           config = YAML.load_file file_path
+          src_dir = "#{root_dir}/#{@app_name}".gsub Dir.pwd, "."
           config["syncs"]["#{@app_name}-sync"] = {
-            "src" => "#{root_dir}/#{@app_name}",
+            "src" => src_dir,
             "sync_excludes" => [".git", "node_modules"]
           }
           File.open(file_path, "w") do |f|
@@ -150,12 +177,11 @@ module Devbin
         end
 
         # Add new section to docker-compose.yml file
-        def add_new_docker_compose(root_dir:, docker_compose_file:)
-          file_path = File.join(root_dir, docker_compose_file)
+        def add_new_docker_compose(docker_compose_file:)
+          file_path = File.join(docker_compose_file)
 
-          template_file = "lib/devbin/templates/configure/add/docker-compose.yml.erb"
           app_name = @app_name
-          yaml_string = ERB.new(File.read(template_file)).result binding
+          yaml_string = ERB.new(File.read(docker_compose_template_path)).result binding
           app_config = YAML.load(yaml_string)
 
           config = YAML.load_file file_path
@@ -165,6 +191,22 @@ module Devbin
           File.open(file_path, "w") do |f|
             f.write config.to_yaml
           end
+        end
+
+        def config_origin_path
+          File.expand_path("../../templates/configure/add/config.yml", __dir__)
+        end
+
+        def config_template_path
+          File.expand_path("../../templates/configure/add/config.yml.erb", __dir__)
+        end
+
+        def docker_sync_template_path
+          File.expand_path("../../templates/configure/add/docker-sync.yml.erb", __dir__)
+        end
+
+        def docker_compose_template_path
+          File.expand_path("../../templates/configure/add/docker-compose.yml.erb", __dir__)
         end
       end
     end
