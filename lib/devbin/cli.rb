@@ -26,7 +26,7 @@ module Devbin
       desc: "Start the application with detached mode"
     method_option :sync, aliases: "-s", type: :boolean, default: true,
       desc: "Start the docker-sync also"
-    def up(app_name)
+    def up(app_name = nil)
       if options[:help]
         invoke :help, ["up"]
       else
@@ -36,7 +36,7 @@ module Devbin
     end
 
     desc "attach APP_NAME", "Attach to the application"
-    def attach(app_name)
+    def attach(app_name = nil)
       if options[:help]
         invoke :help, ["attach"]
       else
@@ -48,7 +48,7 @@ module Devbin
     desc "start [APP_NAME]", "Start the application"
     method_option :sync, aliases: "-s", type: :boolean, default: true,
       desc: "Start the docker-sync also"
-    def start(app_name)
+    def start(app_name = nil)
       if options[:help]
         invoke :help, ["start"]
       else
@@ -62,7 +62,7 @@ module Devbin
       desc: "Stop all applications"
     method_option :sync, aliases: "-s", type: :boolean, default: true,
       desc: "Stop the docker-sync also"
-    def stop(app_name = "")
+    def stop(app_name = nil)
       if options[:help]
         invoke :help, ["stop"]
       else
@@ -78,7 +78,7 @@ module Devbin
       desc: "Restart the docker-sync also"
     method_option :detach, aliases: "-d", type: :boolean, default: :false,
       desc: "Restart but detached"
-    def restart(app_name)
+    def restart(app_name = nil)
       if options[:help]
         invoke :help, ["restart"]
       else
@@ -88,7 +88,7 @@ module Devbin
     end
 
     desc "bash APP_NAME", "Attach to bash for the given app"
-    def bash(app_name)
+    def bash(app_name = nil)
       if options[:help]
         invoke :help, ["bash"]
       else
@@ -111,7 +111,7 @@ module Devbin
     end
 
     desc "navigate APP_NAME", "Quick navigate to the main folder of the app"
-    def navigate(app_name)
+    def navigate(app_name = nil)
       if options[:help]
         invoke :help, ["off"]
       else

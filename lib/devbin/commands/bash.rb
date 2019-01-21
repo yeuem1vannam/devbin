@@ -13,7 +13,7 @@ module Devbin
       def execute(input: $stdin, output: $stdout)
         Dir.chdir root do
           pid = Process.fork {
-            exec "docker-compose -f #{docker_compose_file} exec #{@app_name} bash"
+            exec "docker-compose -f #{docker_compose_file} exec #{service_name} bash"
           }
           Process.wait pid
           output.puts pastel.yellow.bold("OK")

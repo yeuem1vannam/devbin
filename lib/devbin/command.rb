@@ -118,6 +118,8 @@ module Devbin
       TTY::Which.exist?(*args)
     end
 
+    protected
+
     def pastel
       @pastel ||=
         begin
@@ -126,6 +128,7 @@ module Devbin
         end
     end
 
+    # @deprecated
     def find_pwd(file_or_directory_name)
       current_path = Dir.pwd
       path = ["."]
@@ -140,6 +143,11 @@ module Devbin
       end
       Dir.chdir current_path
       []
+    end
+
+    def default_app_name
+      return @default_app_name if @default_app_name
+      current_path = Dir.pwd
     end
 
     def docker_sync_file
@@ -160,15 +168,39 @@ module Devbin
       @root
     end
 
+    def service
+      return @service if @service
+      find_docker_files()
+      @service
+    end
+
+    def service_name
+      return @app_name if @app_name
+      $stdout.puts pastel.yellow "Using smart detect"
+      if service
+        $stdout.puts pastel.yellow(
+          "Executing command for ",
+          pastel.bold(service),
+          " service"
+        )
+        service
+      else
+        fail "Cannot detect the service you are working with"
+      end
+    end
+
+    # TODO: it should be calculate in `initialize'
     def find_docker_files
       current_path = Dir.pwd
       matched_root = ""
+      matched_services = []
       matched_docker_sync_pwd = ""
       matched_docker_compose_pwd = ""
       (config["workspaces"] || {}).each_pair do |_workspace_name, value|
         root = value["root"]
         if current_path.start_with?(root) && root.length >= matched_root.length
           matched_root = root
+          matched_services = value["services"]
           matched_docker_sync_pwd = value["docker-sync"]
           matched_docker_compose_pwd = value["docker-compose"]
         end
@@ -177,6 +209,15 @@ module Devbin
         fail "Cannot find the workspace for #{current_path}"
       end
       @root = matched_root
+      @service = ""
+      matched_service = ""
+      matched_services.each_pair do |service_name, service_path|
+        path = File.expand_path(File.join(@root, service_path))
+        if current_path.start_with?(path) && path.length >= matched_service.length
+          matched_service = path
+          @service = service_name
+        end
+      end
       @docker_sync_file = matched_docker_sync_pwd.gsub(matched_root, ".")
       @docker_compose_file = matched_docker_compose_pwd.gsub(matched_root, ".")
     end

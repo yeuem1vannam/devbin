@@ -17,7 +17,7 @@ module Devbin
         if @options[:all]
           run "docker-compose -f #{docker_compose_file} stop", chdir: root
         else
-          run "docker-compose -f #{docker_compose_file} stop #{@app_name}", chdir: root
+          run "docker-compose -f #{docker_compose_file} stop #{service_name}", chdir: root
         end
         output.puts pastel.yellow.bold("OK")
       end
