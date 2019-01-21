@@ -76,6 +76,8 @@ module Devbin
     #   desc: "Restart all applications"
     method_option :sync, aliases: "-s", type: :boolean, default: true,
       desc: "Restart the docker-sync also"
+    method_option :detach, aliases: "-d", type: :boolean, default: :false,
+      desc: "Restart but detached"
     def restart(app_name)
       if options[:help]
         invoke :help, ["restart"]

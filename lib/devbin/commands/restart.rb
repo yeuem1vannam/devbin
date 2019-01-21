@@ -13,6 +13,7 @@ module Devbin
       def execute(input: $stdin, output: $stdout)
         stop()
         start()
+        attach() unless @options[:detach]
 
         output.puts pastel.yellow.bold("OK")
       end
@@ -21,14 +22,20 @@ module Devbin
 
       def stop
         require_relative "stop"
-        stop_options = { sync: @options[:sync] }
-        Devbin::Commands::Stop.new(@app_name, stop_options).execute
+        options = { sync: @options[:sync] }
+        Devbin::Commands::Stop.new(@app_name, options).execute
       end
 
       def start
         require_relative "start"
-        start_options = { sync: @options[:sync] }
-        Devbin::Commands::Start.new(@app_name, start_options).execute
+        options = { sync: @options[:sync] }
+        Devbin::Commands::Start.new(@app_name, options).execute
+      end
+
+      def attach
+        require_relative "attach"
+        options = {}
+        Devbin::Commands::Attach.new(@app_name, options).execute
       end
     end
   end
