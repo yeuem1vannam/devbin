@@ -21,7 +21,7 @@ module Devbin
             end
           end
         end
-        run "docker-compose -f #{docker_compose_file} up -d #{@app_name}", chdir: root
+        run "docker-compose -f #{docker_compose_file} up -d #{service_name}", chdir: root
         output.puts pastel.yellow.bold("OK")
       end
     end
