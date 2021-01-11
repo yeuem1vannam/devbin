@@ -1,8 +1,25 @@
-require: rubocop-rspec
 inherit_gem:
-  rubocop-github:
-    - config/default.yml
-    - config/rails.yml
+  rubocop-shopify: rubocop.yml
+
 AllCops:
+  StyleGuideBaseURL: https://rubystyle.guide
   Exclude:
-    - pkg/
+    - db/schema.rb
+    - tmp/**/*
+    - bin/*
+Layout/HeredocIndentation:
+  Enabled: false
+Style/MethodCallWithArgsParentheses:
+  Enabled: false
+Lint/MissingSuper:
+  Enabled: false
+# Style/IfUnlessModifier:
+#   Enabled: false
+# Style/ExpandPathArguments:
+#   Enabled: false
+# Style/StringLiterals:
+#   EnforcedStyle: double_quotes
+# Style/Documentation:
+#   Enabled: false
+# Style/PercentLiteralDelimiters:
+#   Enabled: false

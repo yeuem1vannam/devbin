@@ -10,9 +10,9 @@ module Devbin
         @options = options
       end
 
-      def execute(input: $stdin, output: $stdout)
+      def execute(output: $stdout)
         if will_stop?
-          stop()
+          stop
           output.puts pastel.green.on_bright_black.bold("Remember to `git push' before go home")
         else
           output.puts pastel.red.on_bright_black.bold("Keep working...")
@@ -23,7 +23,7 @@ module Devbin
 
       def will_stop?
         return true if @options[:yes]
-        !prompt.no?(pastel.yellow.bold "Turn off the workspace?")
+        !prompt.no?(pastel.yellow.bold("Turn off the workspace?"))
       end
 
       def stop

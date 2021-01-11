@@ -5,7 +5,6 @@ require "thor"
 module Devbin
   module Commands
     class Configure < Thor
-
       Error = Class.new(StandardError)
 
       namespace :configure

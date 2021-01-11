@@ -5,7 +5,6 @@ require "thor"
 module Devbin
   module Commands
     class Rails < Thor
-
       namespace :rails
 
       map "s" => "server"

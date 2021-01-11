@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require "devbin/commands/rails/server"
 
 RSpec.describe Devbin::Commands::Rails::Server do

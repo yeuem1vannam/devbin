@@ -1,6 +1,7 @@
+# frozen_string_literal: true
 RSpec.describe "`devbin configure` command", type: :cli do
   it "executes `devbin help configure` command successfully" do
-    output = `devbin help configure`
+    output = %x(devbin help configure)
     expected_output = <<-OUT
 Commands:
   devbin configure add APP_NAME    # Add application to the current workspace

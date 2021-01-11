@@ -1,6 +1,7 @@
+# frozen_string_literal: true
 RSpec.describe "`devbin rails off` command", type: :cli do
   it "executes `devbin rails help off` command successfully" do
-    output = `devbin rails help off`
+    output = %x(devbin rails help off)
     expected_output = <<-OUT
 Usage:
   devbin off

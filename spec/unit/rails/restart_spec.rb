@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require "devbin/commands/rails/restart"
 
 RSpec.describe Devbin::Commands::Rails::Restart do

@@ -17,11 +17,11 @@ module Devbin
           @options = options
         end
 
-        def execute(input: $stdin, output: $stdout)
-          check_or_create_config_files()
-          root_dir = ask_for_root()
-          docker_sync_file = ask_for_docker_sync_file()
-          docker_compose_file = ask_for_docker_compose_file()
+        def execute(output: $stdout)
+          check_or_create_config_files
+          root_dir = ask_for_root
+          docker_sync_file = ask_for_docker_sync_file
+          docker_compose_file = ask_for_docker_compose_file
           add_new_config(
             root_dir:             root_dir,
             docker_sync_file:     docker_sync_file,
@@ -39,8 +39,8 @@ module Devbin
           unless File.exist? config_file_path
             tree = {
               ".config" => [
-                "devbin" => []
-              ]
+                "devbin" => [],
+              ],
             }
             TTY::File.create_dir tree, Dir.home
             TTY::File.copy_file config_origin_path, config_file_path
@@ -80,7 +80,7 @@ module Devbin
           when :new
             variables = OpenStruct.new
             variables[:app_name] = @app_name
-            TTY::File.copy_file docker_sync_template_path, default_path, context: variables 
+            TTY::File.copy_file docker_sync_template_path, default_path, context: variables
             default_path
           when :input
             output.puts pastel.red "Implementing: ask for docker-sync.yml path"
@@ -93,7 +93,7 @@ module Devbin
             output.puts pastel.red "Abort"
             exit 1
           else
-            fail "Un-handled select option"
+            raise "Un-handled select option"
           end
         end
 
@@ -120,7 +120,7 @@ module Devbin
           when :new
             variables = OpenStruct.new
             variables[:app_name] = @app_name
-            TTY::File.copy_file docker_compose_template_path, default_path, context: variables 
+            TTY::File.copy_file docker_compose_template_path, default_path, context: variables
             default_path
           when :input
             output.puts pastel.red "Implementing: ask for docker-compose.yml path"
@@ -133,7 +133,7 @@ module Devbin
             output.puts pastel.red "Abort"
             exit 1
           else
-            fail "Un-handled select option"
+            raise "Un-handled select option"
           end
         end
 
@@ -170,7 +170,7 @@ module Devbin
           File.open(config_file_path, "w") do |f|
             f.write config.to_yaml
           end
-        end 
+        end
 
         # Add new section to docker-sync.yml file
         def add_new_docker_sync(root_dir:, docker_sync_file:)
@@ -179,7 +179,7 @@ module Devbin
           src_dir = "#{root_dir}/#{@app_name}".gsub Dir.pwd, "."
           config["syncs"]["#{@app_name}-sync"] = {
             "src" => src_dir,
-            "sync_excludes" => [".git", "node_modules"]
+            "sync_excludes" => [".git", "node_modules"],
           }
           File.open(file_path, "w") do |f|
             f.write config.to_yaml

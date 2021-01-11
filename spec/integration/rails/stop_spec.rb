@@ -1,6 +1,7 @@
+# frozen_string_literal: true
 RSpec.describe "`devbin rails stop` command", type: :cli do
   it "executes `devbin rails help stop` command successfully" do
-    output = `devbin rails help stop`
+    output = %x(devbin rails help stop)
     expected_output = <<-OUT
 Usage:
   devbin stop APP_NAME

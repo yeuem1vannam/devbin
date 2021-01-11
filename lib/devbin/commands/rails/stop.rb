@@ -11,7 +11,7 @@ module Devbin
           @options = options
         end
 
-        def execute(input: $stdin, output: $stdout)
+        def execute(output: $stdout)
           if @options[:sync]
             run "docker-sync stop", chdir: docker_sync_pwd
           end

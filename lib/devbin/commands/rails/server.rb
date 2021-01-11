@@ -11,7 +11,7 @@ module Devbin
           @options = options
         end
 
-        def execute(input: $stdin, output: $stdout)
+        def execute(output: $stdout)
           require "tty-command"
           if @options[:sync]
             begin
