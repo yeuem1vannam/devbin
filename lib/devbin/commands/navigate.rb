@@ -10,7 +10,7 @@ module Devbin
         @options = options
       end
 
-      def execute(input: $stdin, output: $stdout)
+      def execute(output: $stdout)
         output.puts pastel.yellow(
           "Trying to navigate to application #{@app_name}",
           "\n",

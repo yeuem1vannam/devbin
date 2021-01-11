@@ -139,7 +139,7 @@ module Devbin
           return path
         end
         path.unshift("..")
-        Dir.chdir ".."      # Up one level
+        Dir.chdir ".." # Up one level
       end
       Dir.chdir current_path
       []
@@ -147,30 +147,30 @@ module Devbin
 
     def default_app_name
       return @default_app_name if @default_app_name
-      current_path = Dir.pwd
+      Dir.pwd
     end
 
     def docker_sync_file
       return @docker_sync_file if @docker_sync_file
-      find_docker_files()
+      find_docker_files
       @docker_sync_file
     end
 
     def docker_compose_file
       return @docker_compose_file if @docker_compose_file
-      find_docker_files()
+      find_docker_files
       @docker_compose_file
     end
 
     def root
       return @root if @root
-      find_docker_files()
+      find_docker_files
       @root
     end
 
     def service
       return @service if @service
-      find_docker_files()
+      find_docker_files
       @service
     end
 
@@ -185,7 +185,7 @@ module Devbin
         )
         service
       else
-        fail "Cannot detect the service you are working with"
+        raise "Cannot detect the service you are working with"
       end
     end
 
@@ -198,15 +198,14 @@ module Devbin
       matched_docker_compose_pwd = ""
       (config["workspaces"] || {}).each_pair do |_workspace_name, value|
         root = value["root"]
-        if current_path.start_with?(root) && root.length >= matched_root.length
-          matched_root = root
-          matched_services = value["services"]
-          matched_docker_sync_pwd = value["docker-sync"]
-          matched_docker_compose_pwd = value["docker-compose"]
-        end
+        next unless current_path.start_with?(root) && root.length >= matched_root.length
+        matched_root = root
+        matched_services = value["services"]
+        matched_docker_sync_pwd = value["docker-sync"]
+        matched_docker_compose_pwd = value["docker-compose"]
       end
       if matched_docker_sync_pwd.empty? || matched_docker_compose_pwd.empty?
-        fail "Cannot find the workspace for #{current_path}"
+        raise "Cannot find the workspace for #{current_path}"
       end
       @root = matched_root
       @service = ""
@@ -228,7 +227,7 @@ module Devbin
         begin
           path = find_pwd("docker")
           if path.empty?
-            fail "Cannot find the `docker' folder"
+            raise "Cannot find the `docker' folder"
           end
           path.push("docker").join("/")
         end

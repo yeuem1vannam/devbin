@@ -1,6 +1,7 @@
+# frozen_string_literal: true
 RSpec.describe "`devbin rails attach` command", type: :cli do
   it "executes `devbin rails help attach` command successfully" do
-    output = `devbin rails help attach`
+    output = %x(devbin rails help attach)
     expected_output = <<-OUT
 Usage:
   devbin attach APP_NAME

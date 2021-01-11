@@ -111,7 +111,7 @@ module Devbin
     end
 
     desc "navigate APP_NAME", "Quick navigate to the main folder of the app"
-    def navigate(app_name = nil)
+    def navigate(_app_name = nil)
       if options[:help]
         invoke :help, ["off"]
       else

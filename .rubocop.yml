@@ -11,6 +11,8 @@ Layout/HeredocIndentation:
   Enabled: false
 Style/MethodCallWithArgsParentheses:
   Enabled: false
+Lint/MissingSuper:
+  Enabled: false
 # Style/IfUnlessModifier:
 #   Enabled: false
 # Style/ExpandPathArguments:

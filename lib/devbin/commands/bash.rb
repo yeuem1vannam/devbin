@@ -10,11 +10,11 @@ module Devbin
         @options = options
       end
 
-      def execute(input: $stdin, output: $stdout)
+      def execute(output: $stdout)
         Dir.chdir root do
-          pid = Process.fork {
+          pid = Process.fork do
             exec "docker-compose -f #{docker_compose_file} exec #{service_name} bash"
-          }
+          end
           Process.wait pid
           output.puts pastel.yellow.bold("OK")
           exit 0

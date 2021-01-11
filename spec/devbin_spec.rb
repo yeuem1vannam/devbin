@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 RSpec.describe Devbin do
   it "has a version number" do
     expect(Devbin::VERSION).not_to be nil

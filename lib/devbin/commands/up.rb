@@ -10,7 +10,7 @@ module Devbin
         @options = options
       end
 
-      def execute(input: $stdin, output: $stdout)
+      def execute(output: $stdout)
         require_relative "start"
         start_options = { sync: @options[:sync] }
         Devbin::Commands::Start.new(@app_name, start_options).execute

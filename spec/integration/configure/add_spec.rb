@@ -1,6 +1,7 @@
+# frozen_string_literal: true
 RSpec.describe "`devbin configure add` command", type: :cli do
   it "executes `devbin configure help add` command successfully" do
-    output = `devbin configure help add`
+    output = %x(devbin configure help add)
     expected_output = <<-OUT
 Usage:
   devbin configure add APP_NAME
@@ -15,7 +16,7 @@ Add application to the current workspace
   end
 
   it "creates configure file" do
-    output = `devbin configure add new-app`
-    expect(File.exist? "#{Dir.home}/.config/devbin/config.yml").to be_truthy
+    %x(devbin configure add new-app)
+    expect(File.exist?("#{Dir.home}/.config/devbin/config.yml")).to be_truthy
   end
 end

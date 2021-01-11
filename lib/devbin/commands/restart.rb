@@ -10,10 +10,10 @@ module Devbin
         @options = options
       end
 
-      def execute(input: $stdin, output: $stdout)
-        stop()
-        start()
-        attach() unless @options[:detach]
+      def execute(output: $stdout)
+        stop
+        start
+        attach unless @options[:detach]
 
         output.puts pastel.yellow.bold("OK")
       end

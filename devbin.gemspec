@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
@@ -10,9 +11,12 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Phuong 'J' Le H."]
   spec.email         = ["yeuem1vannam@users.noreply.github.com"]
 
-  spec.summary       = %q{Seamlessly control your containerized workspace}
-  spec.description   = %q{Power up the containerized workspace with docker + docker-sync. Run command anywhere in your workspace}
-  spec.homepage      = "https://github.com/yeuem1vannam/devbin"
+  spec.summary       = 'Seamlessly control your containerized workspace'
+  spec.description   = <<~DESC
+  Power up the containerized workspace with docker + docker-sync.
+  Run command anywhere in your workspace
+  DESC
+  spec.homepage = "https://github.com/yeuem1vannam/devbin"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
   # to allow pushing to a single host or delete this section to allow pushing to any host.
@@ -29,8 +33,8 @@ Gem::Specification.new do |spec|
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
-  spec.files         = Dir.chdir(File.expand_path("..", __FILE__)) do
-    `git ls-files -z`.split("\x0").reject do |f|
+  spec.files = Dir.chdir(File.expand_path("..", __FILE__)) do
+    %x(git ls-files -z).split("\x0").reject do |f|
       f.match(%r{^(test|spec|features|samples|docs)/})
     end
   end

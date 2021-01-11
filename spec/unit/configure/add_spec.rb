@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'devbin/commands/configure/add'
 
 RSpec.describe Devbin::Commands::Configure::Add do

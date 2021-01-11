@@ -11,11 +11,11 @@ module Devbin
           @options = options || {}
         end
 
-        def execute(input: $stdin, output: $stdout)
+        def execute(output: $stdout)
           require_relative "stop"
           Devbin::Commands::Rails::Stop.new(
             @app_name,
-            {all: false, sync: @options[:sync]}
+            { all: false, sync: @options[:sync] }
           ).execute
 
           require_relative "server"

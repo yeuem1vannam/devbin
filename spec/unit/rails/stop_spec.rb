@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require "devbin/commands/rails/stop"
 
 RSpec.describe Devbin::Commands::Rails::Stop do

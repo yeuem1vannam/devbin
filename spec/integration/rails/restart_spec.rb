@@ -1,6 +1,7 @@
+# frozen_string_literal: true
 RSpec.describe "`devbin rails restart` command", type: :cli do
   it "executes `devbin rails help restart` command successfully" do
-    output = `devbin rails help restart`
+    output = %x(devbin rails help restart)
     expected_output = <<-OUT
 Usage:
   devbin restart APP_NAME
