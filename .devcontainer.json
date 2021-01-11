@@ -1,0 +1,22 @@
+{
+  "name": "@yeuem1vannam/devbin",
+  "dockerComposeFile": [
+    "docker-compose.yml"
+  ],
+  "service": "gem",
+  "workspaceFolder": "/workspace",
+  "shutdownAction": "stopCompose",
+  "extensions": [
+    "rebornix.ruby",
+    "castwide.solargraph",
+    "kaiwood.endwise",
+    "misogi.ruby-rubocop"
+  ],
+  "settings": {
+    "editor.autoIndent": "brackets",
+    "editor.rulers": [80, 120],
+    "editor.tabSize": 2,
+    "ruby.rubocop.executePath": "./bin/",
+    "solargraph.commandPath": "./bin/solargraph"
+  }
+}

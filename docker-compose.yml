@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  gem:
+    tty: true
+    container_name: devbin
+    hostname: devbin@rubygems
+    build: .
+    volumes:
+      - root-vscode-server:/root/.vscode-server
+      - root-ruby-bundle:/usr/local/bundle
+      - .:/workspace
+
+volumes:
+  root-vscode-server: {}
+  root-ruby-bundle: {}
